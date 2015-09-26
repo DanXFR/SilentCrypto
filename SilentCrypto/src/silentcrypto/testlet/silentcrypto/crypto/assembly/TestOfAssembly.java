@@ -69,129 +69,129 @@ import java.util.HashMap;
  *
  * @version $Revision: 1.3 $
  */
-public class TestOfAssembly implements Testlet {
+public class TestOfAssembly /*implements Testlet*/ {
 
    // Constants and variables
    // -------------------------------------------------------------------------
 
-   private Assembly asm;
-   private HashMap attributes = new HashMap();
-   private HashMap modeAttributes = new HashMap();
-
-   // Constructor(s)
-   // -------------------------------------------------------------------------
-
-   public TestOfAssembly() {
-      super();
-   }
-
-   // Class methods
-   // -------------------------------------------------------------------------
-
-   // Instance methods
-   // -------------------------------------------------------------------------
-
-   public void test(TestHarness harness) {
-      TestOfAssembly testcase = new TestOfAssembly();
-
-      // build an OFB-Blowfish cascade
-      Cascade ofbBlowfish = new Cascade();
-      Object modeNdx = ofbBlowfish.append(
-            Stage.getInstance(
-                  ModeFactory.getInstance(Registry.OFB_MODE, new Blowfish(), 8),
-                  Direction.FORWARD));
-
-      testcase.attributes.put(modeNdx, testcase.modeAttributes);
-
-      IPad pkcs7 = PadFactory.getInstance(Registry.PKCS7_PAD);
-
-      testcase.asm = new Assembly();
-      testcase.asm.addPreTransformer(Transformer.getCascadeTransformer(ofbBlowfish));
-      testcase.asm.addPreTransformer(Transformer.getPaddingTransformer(pkcs7));
-
-      testcase.testSymmetry(harness, 1);
-
-      // add a compression transformer.
-      // the resulting assembly encrypts + pad first and compresses later
+//   private Assembly asm;
+//   private HashMap attributes = new HashMap();
+//   private HashMap modeAttributes = new HashMap();
+//
+//   // Constructor(s)
+//   // -------------------------------------------------------------------------
+//
+//   public TestOfAssembly() {
+//      super();
+//   }
+//
+//   // Class methods
+//   // -------------------------------------------------------------------------
+//
+//   // Instance methods
+//   // -------------------------------------------------------------------------
+//
+//   public void test(TestHarness harness) {
+//      TestOfAssembly testcase = new TestOfAssembly();
+//
+//      // build an OFB-Blowfish cascade
+//      Cascade ofbBlowfish = new Cascade();
+//      Object modeNdx = ofbBlowfish.append(
+//            Stage.getInstance(
+//                  ModeFactory.getInstance(Registry.OFB_MODE, new Blowfish(), 8),
+//                  Direction.FORWARD));
+//
+//      testcase.attributes.put(modeNdx, testcase.modeAttributes);
+//
+//      IPad pkcs7 = PadFactory.getInstance(Registry.PKCS7_PAD);
+//
 //      testcase.asm = new Assembly();
 //      testcase.asm.addPreTransformer(Transformer.getCascadeTransformer(ofbBlowfish));
 //      testcase.asm.addPreTransformer(Transformer.getPaddingTransformer(pkcs7));
-      testcase.asm.addPostTransformer(Transformer.getDeflateTransformer());
-
-      testcase.testSymmetry(harness, 2);
-
-      // now build an assembly that compresses first and encrypts + pads later
-      testcase.asm = new Assembly();
-      testcase.asm.addPreTransformer(Transformer.getCascadeTransformer(ofbBlowfish));
-      testcase.asm.addPreTransformer(Transformer.getPaddingTransformer(pkcs7));
-      testcase.asm.addPreTransformer(Transformer.getDeflateTransformer());
-
-      testcase.testSymmetry(harness, 3);
-   }
-
-   private void testSymmetry(TestHarness harness, int ndx) {
-      harness.checkPoint("TestOfAssembly.testSymmetry#"+ndx);
-
-      byte[] km = new byte[] { 0,  1,  2,  3,  4,  5,  6,  7,  8};
-      byte[] iv = new byte[] {-1, -2, -3, -4, -5, -6, -7, -8, -9};
-      byte[] pt = new byte[] { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11};
-      byte[] tpt = new byte[11 * pt.length];
-
-      // forward
-      modeAttributes.put(IBlockCipher.KEY_MATERIAL, km);
-      modeAttributes.put(IMode.IV, iv);
-      attributes.put(Assembly.DIRECTION, Direction.FORWARD);
-      try {
-         asm.init(attributes);
-      } catch (TransformerException x) {
-         harness.debug(x);
-         harness.fail("Forward initialisation");
-         return;
-      }
-
-      byte[] ct = null;
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      try {
-         for (int i = 0; i < 10; i++) { // transform in parts of 12-byte a time
-            System.arraycopy(pt, 0, tpt, i * pt.length, pt.length);
-            ct = asm.update(pt);
-            baos.write(ct, 0, ct.length);
-         }
-      } catch (TransformerException x) {
-         harness.debug(x);
-         harness.fail("Forward transformation");
-         return;
-      }
-      try {
-         System.arraycopy(pt, 0, tpt, 10 * pt.length, pt.length);
-         ct = asm.lastUpdate(pt);
-      } catch (TransformerException x) {
-         harness.debug(x);
-         harness.fail("Forward last transformation");
-         return;
-      }
-      baos.write(ct, 0, ct.length);
-      ct = baos.toByteArray();
-
-      // reversed
-      attributes.put(Assembly.DIRECTION, Direction.REVERSED);
-      try {
-         asm.init(attributes);
-      } catch (TransformerException x) {
-         harness.debug(x);
-         harness.fail("Reverse initialisation");
-         return;
-      }
-
-      byte[] ot;
-      try {
-         ot = asm.lastUpdate(ct); // transform the lot in one go
-      } catch (TransformerException x) {
-         harness.debug(x);
-         harness.fail("Reverse transformation");
-         return;
-      }
-
-      harness.check(Arrays.equals(ot, tpt), "symmetric test");
-   }
+//
+//      testcase.testSymmetry(harness, 1);
+//
+//      // add a compression transformer.
+//      // the resulting assembly encrypts + pad first and compresses later
+////      testcase.asm = new Assembly();
+////      testcase.asm.addPreTransformer(Transformer.getCascadeTransformer(ofbBlowfish));
+////      testcase.asm.addPreTransformer(Transformer.getPaddingTransformer(pkcs7));
+//      testcase.asm.addPostTransformer(Transformer.getDeflateTransformer());
+//
+//      testcase.testSymmetry(harness, 2);
+//
+//      // now build an assembly that compresses first and encrypts + pads later
+//      testcase.asm = new Assembly();
+//      testcase.asm.addPreTransformer(Transformer.getCascadeTransformer(ofbBlowfish));
+//      testcase.asm.addPreTransformer(Transformer.getPaddingTransformer(pkcs7));
+//      testcase.asm.addPreTransformer(Transformer.getDeflateTransformer());
+//
+//      testcase.testSymmetry(harness, 3);
+//   }
+//
+//   private void testSymmetry(TestHarness harness, int ndx) {
+//      harness.checkPoint("TestOfAssembly.testSymmetry#"+ndx);
+//
+//      byte[] km = new byte[] { 0,  1,  2,  3,  4,  5,  6,  7,  8};
+//      byte[] iv = new byte[] {-1, -2, -3, -4, -5, -6, -7, -8, -9};
+//      byte[] pt = new byte[] { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,  11};
+//      byte[] tpt = new byte[11 * pt.length];
+//
+//      // forward
+//      modeAttributes.put(IBlockCipher.KEY_MATERIAL, km);
+//      modeAttributes.put(IMode.IV, iv);
+//      attributes.put(Assembly.DIRECTION, Direction.FORWARD);
+//      try {
+//         asm.init(attributes);
+//      } catch (TransformerException x) {
+//         harness.debug(x);
+//         harness.fail("Forward initialisation");
+//         return;
+//      }
+//
+//      byte[] ct = null;
+//      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//      try {
+//         for (int i = 0; i < 10; i++) { // transform in parts of 12-byte a time
+//            System.arraycopy(pt, 0, tpt, i * pt.length, pt.length);
+//            ct = asm.update(pt);
+//            baos.write(ct, 0, ct.length);
+//         }
+//      } catch (TransformerException x) {
+//         harness.debug(x);
+//         harness.fail("Forward transformation");
+//         return;
+//      }
+//      try {
+//         System.arraycopy(pt, 0, tpt, 10 * pt.length, pt.length);
+//         ct = asm.lastUpdate(pt);
+//      } catch (TransformerException x) {
+//         harness.debug(x);
+//         harness.fail("Forward last transformation");
+//         return;
+//      }
+//      baos.write(ct, 0, ct.length);
+//      ct = baos.toByteArray();
+//
+//      // reversed
+//      attributes.put(Assembly.DIRECTION, Direction.REVERSED);
+//      try {
+//         asm.init(attributes);
+//      } catch (TransformerException x) {
+//         harness.debug(x);
+//         harness.fail("Reverse initialisation");
+//         return;
+//      }
+//
+//      byte[] ot;
+//      try {
+//         ot = asm.lastUpdate(ct); // transform the lot in one go
+//      } catch (TransformerException x) {
+//         harness.debug(x);
+//         harness.fail("Reverse transformation");
+//         return;
+//      }
+//
+//      harness.check(Arrays.equals(ot, tpt), "symmetric test");
+//   }
 }
