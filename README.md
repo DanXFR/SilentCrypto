@@ -7,7 +7,10 @@
  SilentCrypto is distributed in the hope that it will be useful, but
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- General Public License for more details.
+ General Public License for more details. 
+ 
+ IMPORTANT : The current version is still under development and 
+ should NOT to be used for critical purposes yet.
 
 
  Linking this library statically or dynamically with other modules is
