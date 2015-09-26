@@ -32,7 +32,7 @@ package silentcrypto.assembly;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import gnu.crypto.mode.IMode;
+import silentcrypto.mode.IMode;
 
 import java.security.InvalidKeyException;
 import java.util.Collections;

@@ -1,29 +1,16 @@
 package silentcrypto.cipher;
 
 // ----------------------------------------------------------------------------
-// $Id: CipherFactory.java,v 1.11 2003/06/14 14:43:18 raif Exp $
-//
-// Copyright (C) 2001, 2002, 2003 Free Software Foundation, Inc.
-//
-// This file is part of GNU Crypto.
-//
-// GNU Crypto is free software; you can redistribute it and/or modify
+// SilentCrypto is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2, or (at your option)
+// the Free Software Foundation; either version 3, or (at your option)
 // any later version.
 //
-// GNU Crypto is distributed in the hope that it will be useful, but
+// SilentCrypto is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 // General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with this program; see the file COPYING.  If not, write to the
-//
-//    Free Software Foundation Inc.,
-//    59 Temple Place - Suite 330,
-//    Boston, MA 02111-1307
-//    USA
 //
 // Linking this library statically or dynamically with other modules is
 // making a combined work based on this library.  Thus, the terms and
@@ -89,10 +76,6 @@ public class CipherFactory implements Registry {
       IBlockCipher result = null;
       if (name.equalsIgnoreCase(ANUBIS_CIPHER)) {
          result = new Anubis();
-      } else if (name.equalsIgnoreCase(BLOWFISH_CIPHER)) {
-         result = new Blowfish();
-      } else if (name.equalsIgnoreCase(DES_CIPHER)) {
-         result = new DES();
       } else if (name.equalsIgnoreCase(KHAZAD_CIPHER)) {
          result = new Khazad();
       } else if (name.equalsIgnoreCase(RIJNDAEL_CIPHER)
@@ -102,9 +85,7 @@ public class CipherFactory implements Registry {
          result = new Serpent();
       } else if (name.equalsIgnoreCase(SQUARE_CIPHER)) {
          result = new Square();
-      } else if (name.equalsIgnoreCase(TRIPLEDES_CIPHER)
-            || name.equalsIgnoreCase(DESEDE_CIPHER)) {
-         result = new TripleDES();
+   
       } else if (name.equalsIgnoreCase(TWOFISH_CIPHER)) {
          result = new Twofish();
       } else if (name.equalsIgnoreCase(CAST5_CIPHER)

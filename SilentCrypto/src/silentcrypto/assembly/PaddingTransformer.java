@@ -32,8 +32,8 @@ package silentcrypto.assembly;
 // do so, delete this exception statement from your version.
 // ----------------------------------------------------------------------------
 
-import gnu.crypto.pad.IPad;
-import gnu.crypto.pad.WrongPaddingException;
+import silentcrypto.pad.IPad;
+import silentcrypto.pad.WrongPaddingException;
 
 import java.util.Map;
 

@@ -44,9 +44,9 @@ package silentcrypto.util;
 // ----------------------------------------------------------------------------
 
 import silentcrypto.crypto.Properties;
-import gnu.crypto.prng.IRandom;
-import gnu.crypto.prng.LimitReachedException;
-import gnu.crypto.prng.MDGenerator;
+import silentcrypto.prng.IRandom;
+import silentcrypto.prng.LimitReachedException;
+import silentcrypto.prng.MDGenerator;
 import java.util.HashMap;
 
 /**
@@ -54,7 +54,7 @@ import java.util.HashMap;
  * throughout this library.</p>
  *
  * @version $Revision: 1.3 $
- * @see gnu.crypto.prng.MDGenerator
+ * @see silentcrypto.prng.MDGenerator
  */
 public class PRNG {
 
