@@ -85,7 +85,7 @@ import javax.security.sasl.SaslException;
  *
  * @version $Revision: 0.1 $
  */
-public class SRPClient extends ClientMechanism implements SaslClient throws Exception {
+public class SRPClient extends ClientMechanism implements SaslClient  {
 
    // Debugging methods and variables
    // -------------------------------------------------------------------------

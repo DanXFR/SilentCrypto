@@ -147,9 +147,9 @@ public abstract class ServerMechanism implements SaslServer {
       return this.authorizationID;
    }
 
-   public Object getNegotiatedProperty(final String propName) throws SaslException {
+   public Object getNegotiatedProperty(final String propName)  {
       if (!isComplete()) {
-         throw new IllegalMechanismStateException();
+         //throw new IllegalMechanismStateException();
       }
       if (Sasl.QOP.equals(propName)) {
          return getNegotiatedQOP();
